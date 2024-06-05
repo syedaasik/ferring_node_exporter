@@ -1,0 +1,4 @@
+---
+# vars file for node_exporter_role
+new_user: node_exporter
+service_name: node_exporter

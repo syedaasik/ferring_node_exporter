@@ -1,0 +1,30 @@
+# tasks file for node_exporter_role
+---
+
+- name: Create node exporter user
+  user:
+    name: "{{ new_user }}"
+    shell: /bin/false
+    system: yes 
+
+- name: Copy the node exporter binary in the /usr/local/bin directory
+  copy:
+    src: files/node_exporter
+    dest: /usr/local/bin
+    owner: "{{ new_user }}"
+    mode: u+rwx,g---,o---
+
+
+- name: Copy systemd unit template
+  template:
+    src: node_exporter.service.j2
+    #src: "{{ service_name }}".service.j2
+    dest: /etc/systemd/system/node_exporter.service
+  notify:
+    - Reload systemd
+
+- name: Start the node_exporter  service
+  systemd:
+    name: node_exporter
+    state: started
+

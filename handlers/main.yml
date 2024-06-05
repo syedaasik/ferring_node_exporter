@@ -1,0 +1,5 @@
+---
+# handlers file for node_exporter_role
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
